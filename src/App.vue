@@ -1,7 +1,6 @@
 <template>
   <div class="app">
     <Header @menu="changeMenuType"/>
-    <SearchBanner :type="menuType" />
     <Content :type="menuType" />
   </div>
 
@@ -12,7 +11,6 @@
 import Content from './components/Content.vue'
 import Footer from './components/Footer.vue'
 import Header from './components/Header.vue'
-import SearchBanner from './components/SearchBanner.vue'
 
 export default {
   name: 'App',
@@ -20,7 +18,6 @@ export default {
     Content,
     Footer,
     Header,
-    SearchBanner
   },
   data() {
     return {

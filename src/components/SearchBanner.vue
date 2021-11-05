@@ -15,13 +15,27 @@
           <div class="input-button">
             <select name="category">
               <option value="">類        別</option>
+              <option
+                v-for="option in options.category[type]"
+                :key="option.value"
+                :value="option.value"
+              >
+                {{ option.name }}
+              </option>
             </select>
 
             <select name="city">
               <option value="">不分縣市</option>
+              <option
+                v-for="option in options.city"
+                :key="option.value"
+                :value="option.value"
+              >
+                {{ option.name }}
+              </option>
             </select>
 
-            <button class="button button--yellow">
+            <button class="button button--yellow" @click="search('Taipei')">
               <img src="../assets/icons/position.svg" />
             </button>
           </div>
@@ -59,10 +73,154 @@
 </template>
 
 <script>
+import { mapMutations } from 'vuex'
+
+import Api from '../api/scenic_spot';
+
 export default {
   name: 'SearchBanner',
   props: {
     type: String
+  },
+  data() {
+    return {
+      api: null,
+      options: {
+        category: {
+          sights: [
+            {
+              name: '景        點',
+              value: 'sights'
+            },
+            {
+              name: '活        動',
+              value: 'activities'
+            }
+          ],
+          rooms: [
+            {
+              name: '美        食',
+              value: 'restaurants'
+            },
+            {
+              name: '住        宿',
+              value: 'rooms'
+            }
+          ]
+        },
+        city: [
+          {
+            name: '台北市',
+            value: ''
+          },
+          {
+            name: '新北市',
+            value: ''
+          },
+          {
+            name: '桃園市',
+            value: ''
+          },
+          {
+            name: '台中市',
+            value: ''
+          },
+          {
+            name: '台南市',
+            value: ''
+          },
+          {
+            name: '高雄市',
+            value: ''
+          },
+          {
+            name: '基隆市',
+            value: ''
+          },
+          {
+            name: '新竹市',
+            value: ''
+          },
+          {
+            name: '新竹縣',
+            value: ''
+          },
+          {
+            name: '苗栗縣',
+            value: ''
+          },
+          {
+            name: '彰化縣',
+            value: ''
+          },
+          {
+            name: '南投縣',
+            value: ''
+          },
+          {
+            name: '雲林縣',
+            value: '',
+          },
+          {
+            name: '嘉義縣',
+            value: ''
+          },
+          {
+            name: '嘉義市',
+            value: ''
+          },
+          {
+            name: '屏東縣',
+            value: ''
+          },
+          {
+            name: '宜蘭縣',
+            value: ''
+          },
+          {
+            name: '花蓮縣',
+            value: ''
+          },
+          {
+            name: '台東縣',
+            value: ''
+          },
+          {
+            name: '金門縣',
+            value: ''
+          },
+          {
+            name: '澎湖縣',
+            value: ''
+          },
+          {
+            name: '連江縣',
+            value: ''
+          }
+        ]
+      }
+    }
+  },
+  created() {
+    this.api = new Api();
+  },
+  methods: {
+    ...mapMutations(['updateSearchResult', 'startLoading', 'endLoading']),
+
+    search(city) {
+      this.startLoading()
+
+      this.api.getScenicSpot(
+        city
+      ).then((response) => {
+        // console.log(response.data)
+        this.endLoading()
+        this.updateSearchResult(response.data)
+      }).catch((error) => {
+        console.log(error)
+        this.endLoading()
+      })
+    }
   }
 }
 </script>
