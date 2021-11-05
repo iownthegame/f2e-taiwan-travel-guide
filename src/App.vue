@@ -1,6 +1,6 @@
 <template>
   <div class="app">
-    <Header @menu="changeMenuType"/>
+    <Header @menu="changeMenuType" />
     <Content :type="menuType" />
   </div>
 

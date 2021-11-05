@@ -6,15 +6,20 @@
           <h1>Welcome to <span>Taiwan°</span></h1>
           <h2>台北、台中、台南、屏東、宜蘭……遊遍台灣</h2>
           <div class="input-button">
-            <input type="text" placeholder="搜尋關鍵字" />
+            <input
+              type="text"
+              placeholder="搜尋關鍵字"
+            >
             <button class="button button--pink">
-              <img src="../assets/icons/search.svg" />
+              <img src="../assets/icons/search.svg">
             </button>
           </div>
 
           <div class="input-button">
             <select name="category">
-              <option value="">類        別</option>
+              <option value="">
+                類        別
+              </option>
               <option
                 v-for="option in options.category[type]"
                 :key="option.value"
@@ -25,7 +30,9 @@
             </select>
 
             <select name="city">
-              <option value="">不分縣市</option>
+              <option value="">
+                不分縣市
+              </option>
               <option
                 v-for="option in options.city"
                 :key="option.value"
@@ -35,8 +42,11 @@
               </option>
             </select>
 
-            <button class="button button--yellow" @click="search('Taipei')">
-              <img src="../assets/icons/position.svg" />
+            <button
+              class="button button--yellow"
+              @click="search('Taipei')"
+            >
+              <img src="../assets/icons/position.svg">
             </button>
           </div>
         </template>
@@ -44,15 +54,19 @@
         <template v-else>
           <div class="input-button">
             <select name="city">
-              <option value="">選擇縣市</option>
+              <option value="">
+                選擇縣市
+              </option>
             </select>
 
             <select name="line">
-              <option value="">選擇路線</option>
+              <option value="">
+                選擇路線
+              </option>
             </select>
 
             <button class="button button--pink">
-              <img src="../assets/icons/search.svg" />
+              <img src="../assets/icons/search.svg">
             </button>
           </div>
 
@@ -67,7 +81,10 @@
           </div>
         </template>
       </div>
-      <img class="banner-shadow" src="../assets/banner_shadow.png" />
+      <img
+        class="banner-shadow"
+        src="../assets/banner_shadow.png"
+      >
     </div>
   </div>
 </template>
@@ -80,7 +97,10 @@ import Api from '../api/scenic_spot';
 export default {
   name: 'SearchBanner',
   props: {
-    type: String
+    type: {
+      type: String,
+      required: true
+    }
   },
   data() {
     return {

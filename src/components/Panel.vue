@@ -1,14 +1,21 @@
 <template>
   <div :class="`panel panel--${type}`">
     <div class="panel-title">
-      <img :src="require(`../assets/icons/${panels[type].shape}_filled.svg`)" />
+      <img :src="require(`../assets/icons/${panels[type].shape}_filled.svg`)">
       <div>{{ panels[type].name }}</div>
     </div>
 
     <div class="panel-content">
       <template v-if="type === 'activities'">
-        <div v-for="activity in panels[type].examples" :key="activity.title" class="card">
-          <img class="card-image" :src="activity.image" />
+        <div
+          v-for="activity in panels[type].examples"
+          :key="activity.title"
+          class="card"
+        >
+          <img
+            class="card-image"
+            :src="activity.image"
+          >
           <div class="card-detail">
             <div class="card-title">
               {{ activity.title }}
@@ -18,40 +25,65 @@
             </div>
             <div class="card-footer">
               <div class="card-location">
-                <img src="../assets/icons/position_filled.svg" />
+                <img src="../assets/icons/position_filled.svg">
                 {{ activity.location }}
               </div>
 
               <div class="card-more">
-                <button @click="$emit('show', activity)" class="button button--pink">活動詳情</button>
+                <button
+                  class="button button--pink"
+                  @click="$emit('show', activity)"
+                >
+                  活動詳情
+                </button>
               </div>
             </div>
           </div>
-          <img class="card-shadow" src="../assets/card_shadow.png" />
+          <img
+            class="card-shadow"
+            src="../assets/card_shadow.png"
+          >
         </div>
       </template>
 
       <template v-else-if="type === 'cities'">
-        <div v-for="city in panels[type].examples" :key="city.location" class="card card--city">
-          <img class="card-image" :src="require(`../assets/examples/${city.image}`)" />
+        <div
+          v-for="city in panels[type].examples"
+          :key="city.location"
+          class="card card--city"
+        >
+          <img
+            class="card-image"
+            :src="require(`../assets/examples/${city.image}`)"
+          >
           <div class="card-location">
-            <img src="../assets/icons/position_white.svg" />
+            <img src="../assets/icons/position_white.svg">
             {{ city.location }}
           </div>
         </div>
       </template>
 
       <template v-else-if="type === 'restaurants' || type === 'rooms'">
-        <div v-for="restaurant in panels[type].examples" :key="restaurant.title" class="card card--square">
-          <img class="card-image" :src="require(`../assets/examples/${restaurant.image}`)" />
+        <div
+          v-for="restaurant in panels[type].examples"
+          :key="restaurant.title"
+          class="card card--square"
+        >
+          <img
+            class="card-image"
+            :src="require(`../assets/examples/${restaurant.image}`)"
+          >
           <div class="card-title">
             {{ restaurant.title }}
           </div>
           <div class="card-location">
-            <img src="../assets/icons/position_filled.svg" />
+            <img src="../assets/icons/position_filled.svg">
             {{ restaurant.location }}
           </div>
-          <img class="card-shadow" src="../assets/card_square_shadow.png" />
+          <img
+            class="card-shadow"
+            src="../assets/card_square_shadow.png"
+          >
         </div>
       </template>
     </div>
@@ -65,8 +97,12 @@ import { activities, cities, restaurants, rooms } from '../sample_data/sights'
 export default {
   name: 'Panel',
   props: {
-    type: String
+    type: {
+      type: String,
+      required: true
+    }
   },
+  emits: ['show'],
   data() {
     return {
       panels: {
@@ -258,10 +294,6 @@ export default {
     img {
       margin-right: 12px;
     }
-  }
-
-  &-more {
-
   }
 
   &-shadow {

@@ -1,16 +1,30 @@
 <template>
-  <div class="transport-update">*每隔 15 秒自動更新</div>
+  <div class="transport-update">
+    *每隔 15 秒自動更新
+  </div>
   <div class="transport">
     <div class="transport-column">
-      <div v-for="stop in firstWay.stops.filter((element, index) => index < 12)" :key="stop.name" class="transport-stop">
-        <div :class="`transport-time transport-time--${stop.status}`">{{ stopLabel(stop) }}</div>
+      <div
+        v-for="stop in firstWay.stops.filter((element, index) => index < 12)"
+        :key="stop.name"
+        class="transport-stop"
+      >
+        <div :class="`transport-time transport-time--${stop.status}`">
+          {{ stopLabel(stop) }}
+        </div>
         {{ stop.name }}
       </div>
     </div>
 
     <div class="transport-column">
-      <div v-for="stop in firstWay.stops.filter((element, index) => index >= 12)" :key="stop.name" class="transport-stop">
-        <div :class="`transport-time transport-time--${stop.status}`">{{ stopLabel(stop) }}</div>
+      <div
+        v-for="stop in firstWay.stops.filter((element, index) => index >= 12)"
+        :key="stop.name"
+        class="transport-stop"
+      >
+        <div :class="`transport-time transport-time--${stop.status}`">
+          {{ stopLabel(stop) }}
+        </div>
         {{ stop.name }}
       </div>
     </div>
@@ -21,7 +35,10 @@
 export default {
   name: 'Transport',
   props: {
-    line: String
+    line: {
+      type: String,
+      required: true
+    }
   },
   data() {
     return {
@@ -170,9 +187,6 @@ export default {
   display: flex;
   padding: 45px 0px;
   justify-content: space-evenly;
-
-  &-column {
-  }
 
   &-update {
     font-weight: normal;

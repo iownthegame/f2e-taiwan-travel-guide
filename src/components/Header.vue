@@ -1,39 +1,61 @@
 <template>
   <div class="header">
     <div class="header-inner">
-      <img class="header-logo" src="../assets/taiwan_icon.png">
+      <img
+        class="header-logo"
+        src="../assets/taiwan_icon.png"
+      >
 
       <div class="menu-tabs">
         <div class="menu-tab menu-tab--pink">
           <div class="menu-icon">
-            <img src="../assets/icons/triangle.svg" />
+            <img src="../assets/icons/triangle.svg">
           </div>
-          <a href="#" @click="$emit('menu', 'sights')">台灣景點</a>
+          <a
+            href="#"
+            @click="$emit('menu', 'sights')"
+          >
+            台灣景點
+          </a>
         </div>
 
         <div class="menu-tab menu-tab--yellow">
           <div class="menu-icon">
-            <img src="../assets/icons/square.svg" />
+            <img src="../assets/icons/square.svg">
           </div>
-          <a href="#" @click="$emit('menu', 'rooms')">美食住宿</a>
+          <a
+            href="#"
+            @click="$emit('menu', 'rooms')"
+          >
+            美食住宿
+          </a>
         </div>
 
         <div class="menu-tab menu-tab--green">
           <div class="menu-icon">
-            <img src="../assets/icons/circle.svg" />
+            <img src="../assets/icons/circle.svg">
           </div>
-          <a href="#" @click="$emit('menu', 'transports')">景點交通</a>
+          <a
+            href="#"
+            @click="$emit('menu', 'transports')"
+          >
+            景點交通
+          </a>
         </div>
       </div>
 
-      <img class="header-shadow" src="../assets/banner_shadow.png" />
+      <img
+        class="header-shadow"
+        src="../assets/banner_shadow.png"
+      >
     </div>
   </div>
 </template>
 
 <script>
 export default {
-  name: 'Header'
+  name: 'Header',
+  emits: ['menu']
 }
 </script>
 

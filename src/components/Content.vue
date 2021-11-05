@@ -2,11 +2,17 @@
   <div class="content-wrapper">
     <SearchBanner :type="type" />
 
-    <div v-if="loading" class="content-loading">
-      <img src="../assets/loading.gif" />
+    <div
+      v-if="loading"
+      class="content-loading"
+    >
+      <img src="../assets/loading.gif">
     </div>
 
-    <div v-else class="content">
+    <div
+      v-else
+      class="content"
+    >
       <template v-if="['sights', 'rooms'].includes(type)">
         <Panel type="cities" />
         <Panel
@@ -27,7 +33,10 @@
       @close="closeActivityModal"
     >
       <div class="modal-dialog">
-        <img class="modal-image" :src="modalActivity.image" />
+        <img
+          class="modal-image"
+          :src="modalActivity.image"
+        >
         <div class="modal-title">
           {{ modalActivity.title }}
         </div>
@@ -36,23 +45,25 @@
         </div>
         <div class="modal-detail">
           <div class="modal-detail-content">
-            <img :src="icon" />
+            <img :src="icon">
             開放式空間，無時間限制
           </div>
           <div class="modal-detail-content">
-            <img :src="icon" />
+            <img :src="icon">
             免費
           </div>
           <div class="modal-detail-content">
-            <img :src="icon" />
+            <img :src="icon">
             基隆市中山區湖海路一、二段(協和街)
           </div>
           <div class="modal-detail-content">
-            <img :src="icon" />
+            <img :src="icon">
             886-2-24287664
           </div>
         </div>
-        <button @click="closeActivityModal">x</button>
+        <button @click="closeActivityModal">
+          x
+        </button>
       </div>
     </Modal>
   </div>
@@ -75,7 +86,10 @@ export default {
     SearchBanner
   },
   props: {
-    type: String
+    type: {
+      type: String,
+      required: true
+    }
   },
   data() {
     return {
