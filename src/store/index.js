@@ -6,18 +6,38 @@ import { createStore } from "vuex"
 
 const store = createStore({
   state: {
-    searchResult: null,
-    loading: false
+    loading: false,
+    selectedCategory: '',
+    selectedCity: '',
+    menuType: 'sights',
+    searchResults: []
   },
   mutations: {
-    updateSearchResult (state, payload) {
-      state.searchResult = payload
+    updateSelectedCity (state, payload) {
+      console.log('updateSelectedCity', payload)
+      state.selectedCity = payload
+    },
+    updateSelectedCategory (state, payload) {
+      console.log('updateSelectedCategory', payload)
+      state.selectedCategory = payload
+    },
+    updateMenuType(state, payload) {
+      state.menuType = payload
     },
     startLoading (state) {
       state.loading = true
     },
     endLoading (state) {
       state.loading = false
+    },
+    appendSearchResult (state, { data, type }) {
+      state.searchResults = [
+        ...state.searchResults,
+        { data, type }
+      ]
+    },
+    resetSearchResults (state) {
+      state.searchResults = []
     }
   }
 })

@@ -1,8 +1,8 @@
 <template>
-  <div :class="`banner banner--${type}`">
+  <div :class="`banner banner--${menuType}`">
     <div class="banner-inner">
       <div class="banner-content">
-        <template v-if="['sights', 'rooms'].includes(type)">
+        <template v-if="['sights', 'rooms'].includes(menuType)">
           <h1>Welcome to <span>Taiwan°</span></h1>
           <h2>台北、台中、台南、屏東、宜蘭……遊遍台灣</h2>
           <div class="input-button">
@@ -16,12 +16,15 @@
           </div>
 
           <div class="input-button">
-            <select name="category">
+            <select
+              v-model="selectedCategory"
+              name="category"
+            >
               <option value="">
                 類        別
               </option>
               <option
-                v-for="option in options.category[type]"
+                v-for="option in options.category[menuType]"
                 :key="option.value"
                 :value="option.value"
               >
@@ -29,7 +32,10 @@
               </option>
             </select>
 
-            <select name="city">
+            <select
+              v-model="selectedCity"
+              name="city"
+            >
               <option value="">
                 不分縣市
               </option>
@@ -44,7 +50,7 @@
 
             <button
               class="button button--yellow"
-              @click="search('Taipei')"
+              @click="search()"
             >
               <img src="../assets/icons/position.svg">
             </button>
@@ -90,18 +96,12 @@
 </template>
 
 <script>
-import { mapMutations } from 'vuex'
+import { mapMutations, mapState } from 'vuex'
 
-import Api from '../api/scenic_spot';
+import Api from '../api/tourism';
 
 export default {
   name: 'SearchBanner',
-  props: {
-    type: {
-      type: String,
-      required: true
-    }
-  },
   data() {
     return {
       api: null,
@@ -131,116 +131,210 @@ export default {
         city: [
           {
             name: '台北市',
-            value: ''
+            value: 'Taipei'
           },
           {
             name: '新北市',
-            value: ''
+            value: 'NewTaipei'
           },
           {
             name: '桃園市',
-            value: ''
+            value: 'Taoyuan'
           },
           {
             name: '台中市',
-            value: ''
+            value: 'Taichung'
           },
           {
             name: '台南市',
-            value: ''
+            value: 'Tainan'
           },
           {
             name: '高雄市',
-            value: ''
+            value: 'Kaohsiung'
           },
           {
             name: '基隆市',
-            value: ''
+            value: 'Keelung'
           },
           {
             name: '新竹市',
-            value: ''
+            value: 'Hsinchu'
           },
           {
             name: '新竹縣',
-            value: ''
+            value: 'HsinchuCounty'
           },
           {
             name: '苗栗縣',
-            value: ''
+            value: 'MiaoliCounty'
           },
           {
             name: '彰化縣',
-            value: ''
+            value: 'ChanghuaCounty'
           },
           {
             name: '南投縣',
-            value: ''
+            value: 'NantouCounty'
           },
           {
             name: '雲林縣',
-            value: '',
+            value: 'YunlinCounty',
           },
           {
             name: '嘉義縣',
-            value: ''
+            value: 'ChiayiCounty'
           },
           {
             name: '嘉義市',
-            value: ''
+            value: 'Chiayi'
           },
           {
             name: '屏東縣',
-            value: ''
+            value: 'PingtungCounty'
           },
           {
             name: '宜蘭縣',
-            value: ''
+            value: 'YilanCounty'
           },
           {
             name: '花蓮縣',
-            value: ''
+            value: 'HualienCounty'
           },
           {
             name: '台東縣',
-            value: ''
+            value: 'TaitungCounty'
           },
           {
             name: '金門縣',
-            value: ''
+            value: 'KinmenCounty'
           },
           {
             name: '澎湖縣',
-            value: ''
+            value: 'PenghuCounty'
           },
           {
             name: '連江縣',
-            value: ''
+            value: 'LienchiangCounty'
           }
         ]
+      },
+    }
+  },
+  computed: {
+    ...mapState(['menuType']),
+    selectedCity: {
+      get () {
+        return this.$store.state.selectedCity
+      },
+      set (value) {
+        this.updateSelectedCity(value)
+      }
+    },
+    selectedCategory: {
+      get () {
+        return this.$store.state.selectedCategory
+      },
+      set (value) {
+        this.updateSelectedCategory(value)
+      }
+    },
+  },
+  watch: {
+    menuType: function (newMenuType) {
+      if (newMenuType === 'sights' || newMenuType === 'rooms') {
+        this.search()
       }
     }
   },
   created() {
-    this.api = new Api();
+    this.api = new Api()
+    this.search()
   },
   methods: {
-    ...mapMutations(['updateSearchResult', 'startLoading', 'endLoading']),
+    ...mapMutations([
+      'startLoading',
+      'endLoading',
+      'updateSelectedCity',
+      'updateSelectedCategory',
+      'resetSearchResults',
+      'appendSearchResult'
+    ]),
 
-    search(city) {
+    search() {
+      this.resetSearchResults()
       this.startLoading()
 
-      this.api.getScenicSpot(
-        city
-      ).then((response) => {
-        // console.log(response.data)
-        this.endLoading()
-        this.updateSearchResult(response.data)
-      }).catch((error) => {
-        console.log(error)
-        this.endLoading()
-      })
-    }
+      if (!this.selectedCity) {
+        this.appendSearchResult({
+          type: 'cities'
+        })
+      }
+
+      if (this.selectedCategory === 'sights' || (this.selectedCategory === '' && this.menuType === 'sights')) {
+        this.api.getScenicSpot(
+          this.selectedCity
+        ).then((response) => {
+          // console.log(response.data)
+          this.endLoading()
+          this.appendSearchResult({
+            data: response.data,
+            type: 'sights'
+          })
+        }).catch((error) => {
+          console.log(error)
+          this.endLoading()
+        })
+      }
+
+      if (this.selectedCategory === 'activities' || (this.selectedCategory === '' && this.menuType === 'sights')) {
+        this.api.getActivity(
+          this.selectedCity
+        ).then((response) => {
+          // console.log(response.data)
+          this.endLoading()
+          this.appendSearchResult({
+            data: response.data,
+            type: 'activities'
+          })
+        }).catch((error) => {
+          console.log(error)
+          this.endLoading()
+        })
+      }
+
+      if (this.selectedCategory === 'restaurants' || (this.selectedCategory === '' && (this.menuType === 'sights' || this.menuType === 'rooms'))) {
+        this.api.getRestaurant(
+          this.selectedCity
+        ).then((response) => {
+          // console.log(response.data)
+          this.endLoading()
+          this.appendSearchResult({
+            data: response.data,
+            type: 'restaurants'
+          })
+        }).catch((error) => {
+          console.log(error)
+          this.endLoading()
+        })
+      }
+
+      if (this.selectedCategory === 'rooms' || (this.selectedCategory === '' && (this.menuType === 'sights' || this.menuType === 'rooms'))) {
+        this.api.getHotel(
+          this.selectedCity
+        ).then((response) => {
+          // console.log(response.data)
+          this.endLoading()
+          this.appendSearchResult({
+            data: response.data,
+            type: 'rooms'
+          })
+        }).catch((error) => {
+          console.log(error)
+          this.endLoading()
+        })
+      }
+    },
   }
 }
 </script>

@@ -1,6 +1,6 @@
 <template>
   <div class="content-wrapper">
-    <SearchBanner :type="type" />
+    <SearchBanner />
 
     <div
       v-if="loading"
@@ -13,17 +13,11 @@
       v-else
       class="content"
     >
-      <template v-if="['sights', 'rooms'].includes(type)">
-        <Panel type="cities" />
-        <Panel
-          type="activities"
-          @show="showActivityModal"
-        />
-        <Panel type="restaurants" />
-        <Panel type="rooms" />
+      <template v-if="['sights', 'rooms'].includes(menuType)">
+        <SearchResult />
       </template>
 
-      <template v-else-if="type === 'transports'">
+      <template v-else-if="menuType === 'transports'">
         <Transport />
       </template>
     </div>
@@ -73,23 +67,17 @@
 import { mapState } from 'vuex'
 
 import SearchBanner from './SearchBanner.vue'
-import Panel from './Panel.vue'
+import SearchResult from './SearchResult.vue'
 import Transport from './Transport.vue'
 import Modal from './Modal.vue'
 
 export default {
   name: 'Content',
   components: {
-    Panel,
     Transport,
     Modal,
-    SearchBanner
-  },
-  props: {
-    type: {
-      type: String,
-      required: true
-    }
+    SearchBanner,
+    SearchResult
   },
   data() {
     return {
@@ -98,7 +86,10 @@ export default {
     }
   },
   computed: {
-    ...mapState(['loading'])
+    ...mapState([
+      'loading',
+      'menuType'
+    ]),
   },
   methods: {
     showActivityModal(activity) {

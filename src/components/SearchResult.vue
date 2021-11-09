@@ -1,32 +1,60 @@
 <template>
-  <div :class="`panel panel--${type}`">
+  <div
+    v-for="result in searchResults"
+    :key="result.type"
+    :class="`panel panel--${result.type}`"
+  >
     <div class="panel-title">
-      <img :src="require(`../assets/icons/${panels[type].shape}_filled.svg`)">
-      <div>{{ panels[type].name }}</div>
+      <img :src="require(`../assets/icons/${panels[result.type].shape}_filled.svg`)">
+      <div>{{ panels[result.type].name }}</div>
     </div>
 
     <div class="panel-content">
-      <template v-if="type === 'activities'">
+      <template v-if="result.type === 'sights'">
         <div
-          v-for="activity in panels[type].examples"
-          :key="activity.title"
+          v-for="sight in result.data"
+          :key="sight.ID"
+          class="card card--square"
+        >
+          <img
+            class="card-image"
+            :src="sight.Picture.PictureUrl1"
+          >
+          <div class="card-title">
+            {{ sight.Name }}
+          </div>
+          <div class="card-location">
+            <img src="../assets/icons/position_filled.svg">
+            {{ `${sight.City || ''} ${sight.ZipCode}` }}
+          </div>
+          <img
+            class="card-shadow"
+            src="../assets/card_square_shadow.png"
+          >
+        </div>
+      </template>
+
+      <template v-else-if="result.type === 'activities'">
+        <div
+          v-for="activity in result.data"
+          :key="activity.ID"
           class="card"
         >
           <img
             class="card-image"
-            :src="activity.image"
+            :src="activity.Picture.PictureUrl1"
           >
           <div class="card-detail">
             <div class="card-title">
-              {{ activity.title }}
+              {{ activity.Name }}
             </div>
             <div class="card-description">
-              {{ activity.description }}
+              {{ activity.Description.substring(0, 100) }}
             </div>
             <div class="card-footer">
               <div class="card-location">
                 <img src="../assets/icons/position_filled.svg">
-                {{ activity.location }}
+                {{ activity.City }}
               </div>
 
               <div class="card-more">
@@ -46,9 +74,33 @@
         </div>
       </template>
 
-      <template v-else-if="type === 'cities'">
+      <template v-else-if="result.type === 'restaurants' || result.type === 'rooms'">
         <div
-          v-for="city in panels[type].examples"
+          v-for="item in result.data"
+          :key="item.ID"
+          class="card card--square"
+        >
+          <img
+            class="card-image"
+            :src="item.Picture.PictureUrl1"
+          >
+          <div class="card-title">
+            {{ item.Name }}
+          </div>
+          <div class="card-location">
+            <img src="../assets/icons/position_filled.svg">
+            {{ `${item.City || ''} ${item.ZipCode}` }}
+          </div>
+          <img
+            class="card-shadow"
+            src="../assets/card_square_shadow.png"
+          >
+        </div>
+      </template>
+
+      <template v-else-if="result.type === 'cities'">
+        <div
+          v-for="city in panels[result.type].data"
           :key="city.location"
           class="card card--city"
         >
@@ -62,46 +114,16 @@
           </div>
         </div>
       </template>
-
-      <template v-else-if="type === 'restaurants' || type === 'rooms'">
-        <div
-          v-for="restaurant in panels[type].examples"
-          :key="restaurant.title"
-          class="card card--square"
-        >
-          <img
-            class="card-image"
-            :src="require(`../assets/examples/${restaurant.image}`)"
-          >
-          <div class="card-title">
-            {{ restaurant.title }}
-          </div>
-          <div class="card-location">
-            <img src="../assets/icons/position_filled.svg">
-            {{ restaurant.location }}
-          </div>
-          <img
-            class="card-shadow"
-            src="../assets/card_square_shadow.png"
-          >
-        </div>
-      </template>
     </div>
   </div>
 </template>
 
 <script>
 import { mapState } from 'vuex'
-import { activities, cities, restaurants, rooms } from '../sample_data/sights'
+import { cities } from '../sample_data/sights'
 
 export default {
-  name: 'Panel',
-  props: {
-    type: {
-      type: String,
-      required: true
-    }
-  },
+  name: 'SearchResult',
   emits: ['show'],
   data() {
     return {
@@ -109,28 +131,31 @@ export default {
         activities: {
           name: '熱門活動',
           shape: 'triangle',
-          examples: activities
+        },
+        sights: {
+          name: '熱門景點',
+          shape: 'triangle',
         },
         cities: {
           name: '熱門城市',
           shape: 'triangle',
-          examples: cities
+          data: cities
         },
         restaurants: {
           name: '熱門餐飲',
           shape: 'square',
-          examples: restaurants
         },
         rooms: {
           name: '推薦住宿',
           shape: 'square',
-          examples: rooms
         }
       }
     }
   },
   computed: {
-    ...mapState(['searchResult'])
+    ...mapState([
+      'searchResults'
+    ])
   }
 }
 </script>

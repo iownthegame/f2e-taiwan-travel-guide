@@ -13,7 +13,7 @@
           </div>
           <a
             href="#"
-            @click="$emit('menu', 'sights')"
+            @click="updateMenuType('sights')"
           >
             台灣景點
           </a>
@@ -25,7 +25,7 @@
           </div>
           <a
             href="#"
-            @click="$emit('menu', 'rooms')"
+            @click="updateMenuType('rooms')"
           >
             美食住宿
           </a>
@@ -37,7 +37,7 @@
           </div>
           <a
             href="#"
-            @click="$emit('menu', 'transports')"
+            @click="updateMenuType('transports')"
           >
             景點交通
           </a>
@@ -53,9 +53,15 @@
 </template>
 
 <script>
+import { mapMutations } from 'vuex'
+
 export default {
   name: 'Header',
-  emits: ['menu']
+  methods: {
+    ...mapMutations([
+      'updateMenuType',
+    ]),
+  }
 }
 </script>
 

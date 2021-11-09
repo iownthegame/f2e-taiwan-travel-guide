@@ -1,7 +1,7 @@
 <template>
   <div class="app">
-    <Header @menu="changeMenuType" />
-    <Content :type="menuType" />
+    <Header />
+    <Content />
   </div>
 
   <Footer />
@@ -18,16 +18,6 @@ export default {
     Content,
     Footer,
     Header,
-  },
-  data() {
-    return {
-      menuType: 'sights'
-    }
-  },
-  methods: {
-    changeMenuType(type) {
-      this.menuType = type;
-    }
   }
 }
 </script>
