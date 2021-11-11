@@ -346,6 +346,8 @@ export default {
   padding-top: 0;
   background: #FFFFFF;
   position: relative;
+  width: 100%;
+  box-sizing: border-box;
 
   &-inner {
     display: flex;

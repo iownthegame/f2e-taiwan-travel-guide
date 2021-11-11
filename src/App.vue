@@ -2,9 +2,8 @@
   <div class="app">
     <Header />
     <Content />
+    <Footer />
   </div>
-
-  <Footer />
 </template>
 
 <script>
@@ -34,7 +33,6 @@ export default {
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   position: relative;
-  max-width: 1280px;
   width: 100%;
   padding-bottom: 65px;
 

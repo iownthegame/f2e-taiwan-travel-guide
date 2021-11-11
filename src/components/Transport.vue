@@ -1,33 +1,40 @@
 <template>
   <div class="transport-update">
-    *每隔 15 秒自動更新
+    *每隔 15 秒自動更新 <strong>(註： 此頁面為範例頁面，尚未串接 API)</strong>
   </div>
   <div class="transport">
-    <div class="transport-column">
-      <div
-        v-for="stop in firstWay.stops.filter((element, index) => index < 12)"
-        :key="stop.name"
-        class="transport-stop"
-      >
-        <div :class="`transport-time transport-time--${stop.status}`">
-          {{ stopLabel(stop) }}
+    <div class="transport-inner">
+      <div class="transport-column">
+        <div
+          v-for="stop in firstWay.stops.filter((element, index) => index < 12)"
+          :key="stop.name"
+          class="transport-stop"
+        >
+          <div :class="`transport-time transport-time--${stop.status}`">
+            {{ stopLabel(stop) }}
+          </div>
+          {{ stop.name }}
         </div>
-        {{ stop.name }}
+      </div>
+
+      <div class="transport-column">
+        <div
+          v-for="stop in firstWay.stops.filter((element, index) => index >= 12)"
+          :key="stop.name"
+          class="transport-stop"
+        >
+          <div :class="`transport-time transport-time--${stop.status}`">
+            {{ stopLabel(stop) }}
+          </div>
+          {{ stop.name }}
+        </div>
       </div>
     </div>
 
-    <div class="transport-column">
-      <div
-        v-for="stop in firstWay.stops.filter((element, index) => index >= 12)"
-        :key="stop.name"
-        class="transport-stop"
-      >
-        <div :class="`transport-time transport-time--${stop.status}`">
-          {{ stopLabel(stop) }}
-        </div>
-        {{ stop.name }}
-      </div>
-    </div>
+    <img
+      class="transport-shadow"
+      src="../assets/transport_shadow.png"
+    >
   </div>
 </template>
 
@@ -184,9 +191,23 @@ export default {
 .transport {
   background: white;
   width: 100%;
-  display: flex;
   padding: 45px 0px;
-  justify-content: space-evenly;
+  margin-bottom: 84px;
+  position: relative;
+
+  &-inner {
+    display: flex;
+    justify-content: space-evenly;
+  }
+
+  &-shadow {
+    position: absolute;
+    bottom: -27px;
+    left: 0;
+    width: 100%;
+    z-index: -1;
+    height: 52px;
+  }
 
   &-update {
     font-weight: normal;

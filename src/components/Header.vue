@@ -7,37 +7,43 @@
       >
 
       <div class="menu-tabs">
-        <div class="menu-tab menu-tab--pink">
+        <div
+          class="menu-tab menu-tab--pink"
+          @click="updateMenuType('sights')"
+        >
           <div class="menu-icon">
             <img src="../assets/icons/triangle.svg">
           </div>
           <a
             href="#"
-            @click="updateMenuType('sights')"
           >
             台灣景點
           </a>
         </div>
 
-        <div class="menu-tab menu-tab--yellow">
+        <div
+          class="menu-tab menu-tab--yellow"
+          @click="updateMenuType('rooms')"
+        >
           <div class="menu-icon">
             <img src="../assets/icons/square.svg">
           </div>
           <a
             href="#"
-            @click="updateMenuType('rooms')"
           >
             美食住宿
           </a>
         </div>
 
-        <div class="menu-tab menu-tab--green">
+        <div
+          class="menu-tab menu-tab--green"
+          @click="updateMenuType('transports')"
+        >
           <div class="menu-icon">
             <img src="../assets/icons/circle.svg">
           </div>
           <a
             href="#"
-            @click="updateMenuType('transports')"
           >
             景點交通
           </a>
@@ -87,7 +93,7 @@ export default {
 
   .menu-tabs {
     display: flex;
-    align-items: center;
+    align-items: flex-end;
     justify-content: center;
   }
 
@@ -117,6 +123,7 @@ export default {
   display: flex;
   align-items: flex-end;
   justify-content: center;
+  cursor: pointer;
 
   &--pink {
     color: #FF1D6C;
@@ -142,6 +149,16 @@ export default {
     }
   }
 
+  &:hover {
+    .menu-icon {
+      width: 42px;
+      height: 42px;
+    }
+    a {
+      margin-left: 0;
+    }
+  }
+
   .menu-icon {
     width: 34px;
     height: 34px;
@@ -149,6 +166,7 @@ export default {
     align-items: center;
     justify-content: center;
     border-radius: 50px;
+    transition: .1s;
   }
 
   a {
@@ -156,6 +174,7 @@ export default {
     font: 14px;
     text-decoration-line: underline;
     color: inherit;
+    transition: .1s;
   }
 
   + .menu-tab {

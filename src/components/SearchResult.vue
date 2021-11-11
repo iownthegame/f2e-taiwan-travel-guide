@@ -18,7 +18,8 @@
         >
           <img
             class="card-image"
-            :src="sight.Picture.PictureUrl1"
+            :src="setCardImage(sight.Picture.PictureUrl1)"
+            @error="setAltImage"
           >
           <div class="card-title">
             {{ sight.Name }}
@@ -42,7 +43,8 @@
         >
           <img
             class="card-image"
-            :src="activity.Picture.PictureUrl1"
+            :src="setCardImage(activity.Picture.PictureUrl1)"
+            @error="setAltImage"
           >
           <div class="card-detail">
             <div class="card-title">
@@ -82,7 +84,8 @@
         >
           <img
             class="card-image"
-            :src="item.Picture.PictureUrl1"
+            :src="setCardImage(item.Picture.PictureUrl1)"
+            @error="setAltImage"
           >
           <div class="card-title">
             {{ item.Name }}
@@ -99,18 +102,43 @@
       </template>
 
       <template v-else-if="result.type === 'cities'">
-        <div
-          v-for="city in panels[result.type].data"
-          :key="city.location"
-          class="card card--city"
-        >
-          <img
-            class="card-image"
-            :src="require(`../assets/examples/${city.image}`)"
+        <div class="panel-content-city">
+          <div
+            class="panel-content-arrow"
+            @click="onSlide('prev')"
           >
-          <div class="card-location">
-            <img src="../assets/icons/position_white.svg">
-            {{ city.location }}
+            <img src="../assets/arrow_left.png" >
+          </div>
+
+          <div class="panel-content-carousel">
+            <div
+              ref="inner"
+              class="panel-content-carousel--inner"
+              :style="innerStyles"
+            >
+              <div
+                v-for="city in panels[result.type].data"
+                :key="city.location"
+                class="card card--city"
+              >
+                <img
+                  class="card-image"
+                  :src="require(`../assets/examples/${city.image}`)"
+                  @error="setAltImage"
+                >
+                <div class="card-location">
+                  <img src="../assets/icons/position_white.svg">
+                  {{ city.location }}
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div
+            class="panel-content-arrow"
+            @click="onSlide('next')"
+          >
+            <img src="../assets/arrow_right.png" >
           </div>
         </div>
       </template>
@@ -120,10 +148,13 @@
 
 <script>
 import { mapState } from 'vuex'
+
+import carousel from './mixins/carousel';
 import { cities } from '../sample_data/sights'
 
 export default {
   name: 'SearchResult',
+  mixins: [carousel],
   emits: ['show'],
   data() {
     return {
@@ -149,13 +180,22 @@ export default {
           name: '推薦住宿',
           shape: 'square',
         }
-      }
+      },
+      cards: cities
     }
   },
   computed: {
     ...mapState([
       'searchResults'
     ])
+  },
+  methods: {
+    setAltImg(event) {
+      event.target.src = require('../assets/no_image.png')
+    },
+    setCardImage(src) {
+      return src || require('../assets/no_image.png')
+    }
   }
 }
 </script>
@@ -163,6 +203,8 @@ export default {
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style lang="scss" scoped>
 .panel {
+  width: 100%;
+
   &-title {
     display: flex;
     align-items: center;
@@ -183,6 +225,29 @@ export default {
     // justify-content: space-between;
     justify-content: flex-start;
     margin-bottom: 48px;
+
+    &-arrow {
+      margin: 0 20px;
+      cursor: pointer;
+    }
+
+    &-city {
+      display: flex;
+      width: 100%;
+      align-items: center;
+    }
+
+    &-carousel {
+      margin: auto;
+      // max-width: 740px;
+      overflow: hidden;
+      width: 100%;
+
+      &--inner {
+        transition: transform 0.2s;
+        white-space: nowrap;
+      }
+    }
   }
 }
 
@@ -191,7 +256,8 @@ export default {
   display: flex;
   padding: 16px;
   width: 48%;
-  height: auto;
+  height: 228px;
+  // height: auto;
   background: #FFFFFF;
   align-items: center;
   box-sizing: border-box;
@@ -205,17 +271,20 @@ export default {
     align-items: flex-start;
     margin-right: 9px;
     padding: 12px;
+    height: 243px;
 
     .card {
       &-image {
         width: 100%;
         margin-right: 0;
         margin-bottom: 16px;
+        height: 137px;
       }
 
       &-title {
         text-align: left;
-        margin-bottom: 30px;
+        margin-bottom: 10px;
+        height: 42px;
       }
 
       &-location {
@@ -225,6 +294,7 @@ export default {
 
         img {
           margin-right: 8px;
+          height: 16px;
         }
       }
 
@@ -241,11 +311,14 @@ export default {
     margin-right: 9px;
     padding: 14px 12px;
     box-shadow: 0px 4px 3px rgba(13, 11, 12, 0.2);
+    display: inline-flex;
+    height: 245px;
 
     .card {
       &-image {
         width: 100%;
         margin-right: 0;
+        height: 223px; //tmp
       }
 
       &-location {
@@ -286,6 +359,8 @@ export default {
     display: flex;
     flex-direction: column;
     height: 100%;
+    flex-grow: 1;
+    flex-basis: 0;
   }
 
   &-title {
@@ -300,6 +375,8 @@ export default {
     line-height: 21px;
     color: #ACACAC;
     margin-top: 14px;
+    height: 90px;
+    overflow: scroll;
   }
 
   &-footer {

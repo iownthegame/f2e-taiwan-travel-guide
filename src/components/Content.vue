@@ -82,7 +82,7 @@ export default {
   data() {
     return {
       modalVisible: false,
-      modalActivity: null
+      modalActivity: null,
     }
   },
   computed: {
@@ -111,8 +111,9 @@ export default {
   display: flex;
   flex-direction: column;
   align-items: flex-start;
-  padding: 65px 6%;
-  padding-bottom: 0;
+  padding-top: 65px;
+  max-width: 1080px;
+  width: 100%;
 
   @media screen and (max-width: 1024px) {
     padding: 8px 65px;
@@ -132,6 +133,9 @@ export default {
 
   &-wrapper {
     position: relative;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
   }
 }
 
