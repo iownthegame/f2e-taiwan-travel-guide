@@ -3,16 +3,13 @@
     <div class="banner-inner">
       <div class="banner-content">
         <template v-if="['sights', 'rooms'].includes(menuType)">
-          <h1>Welcome to <span>Taiwan°</span></h1>
+          <div><img src="../assets/welcome_to_taiwan.svg"></div>
           <h2>台北、台中、台南、屏東、宜蘭……遊遍台灣</h2>
           <div class="input-button">
             <input
               type="text"
               placeholder="搜尋關鍵字"
             >
-            <button class="button button--pink">
-              <img src="../assets/icons/search.svg">
-            </button>
           </div>
 
           <div class="input-button">
@@ -47,12 +44,11 @@
                 {{ option.name }}
               </option>
             </select>
-
             <button
-              class="button button--yellow"
               @click="search()"
+              class="button button--pink"
             >
-              <img src="../assets/icons/position.svg">
+              <img src="../assets/icons/search.svg">
             </button>
           </div>
         </template>
@@ -472,7 +468,7 @@ export default {
     border-radius: 6px;
     padding: 8.5px 24px;
     box-sizing: border-box;
-    width: 445px;
+    width: 491px;
   }
 
   select {
