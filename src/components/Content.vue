@@ -1,5 +1,8 @@
 <template>
-  <div class="content-wrapper">
+  <div
+    class="content-wrapper"
+    :class="modalVisible ? 'content-noscroll' : ''"
+  >
     <SearchBanner />
 
     <div
@@ -14,57 +17,57 @@
       class="content"
     >
       <template v-if="['sights', 'rooms'].includes(menuType)">
-        <SearchResult />
+        <SearchResult @show="showActivityModal" />
       </template>
 
       <template v-else-if="menuType === 'transports'">
         <Transport />
       </template>
     </div>
-
-    <Modal
-      :visible="modalVisible"
-      @close="closeActivityModal"
-    >
-      <div class="modal-dialog">
-        <img
-          class="modal-image"
-          :src="modalActivity.image"
-        >
-        <div class="modal-title">
-          {{ modalActivity.title }}
-        </div>
-        <div class="modal-description">
-          {{ modalActivity.description }}
-        </div>
-        <div class="modal-detail">
-          <div class="modal-detail-content">
-            <img :src="icon">
-            開放式空間，無時間限制
-          </div>
-          <div class="modal-detail-content">
-            <img :src="icon">
-            免費
-          </div>
-          <div class="modal-detail-content">
-            <img :src="icon">
-            基隆市中山區湖海路一、二段(協和街)
-          </div>
-          <div class="modal-detail-content">
-            <img :src="icon">
-            886-2-24287664
-          </div>
-        </div>
-        <button @click="closeActivityModal">
-          x
-        </button>
-      </div>
-    </Modal>
   </div>
+
+  <Modal
+    :visible="modalVisible"
+    @close="closeActivityModal"
+  >
+    <div class="modal-dialog">
+      <img
+        class="modal-image"
+        :src="modalActivity.image"
+      >
+      <div class="modal-title">
+        {{ modalActivity.title }}
+      </div>
+      <div class="modal-description">
+        {{ modalActivity.description }}
+      </div>
+      <div class="modal-detail">
+        <div class="modal-detail-content">
+          <img :src="icon">
+          開放式空間，無時間限制
+        </div>
+        <div class="modal-detail-content">
+          <img :src="icon">
+          免費
+        </div>
+        <div class="modal-detail-content">
+          <img :src="icon">
+          基隆市中山區湖海路一、二段(協和街)
+        </div>
+        <div class="modal-detail-content">
+          <img :src="icon">
+          886-2-24287664
+        </div>
+      </div>
+      <button @click="closeActivityModal">
+        x
+      </button>
+    </div>
+  </Modal>
 </template>
 
 <script>
-import { mapState } from 'vuex'
+import { mapMutations, mapState } from 'vuex'
 
 import SearchBanner from './SearchBanner.vue'
 import SearchResult from './SearchResult.vue'
@@ -81,23 +84,26 @@ export default {
   },
   data() {
     return {
-      modalVisible: false,
       modalActivity: null,
     }
   },
   computed: {
     ...mapState([
       'loading',
-      'menuType'
+      'menuType',
+      'modalVisible'
     ]),
   },
   methods: {
+    ...mapMutations([
+      'setModalVisible'
+    ]),
     showActivityModal(activity) {
-      this.modalVisible = true;
+      this.setModalVisible(true)
       this.modalActivity = activity;
     },
     closeActivityModal() {
-      this.modalVisible = false;
+      this.setModalVisible(false)
       // this.modalActivity = null;
     }
   }
@@ -137,6 +143,11 @@ export default {
     flex-direction: column;
     align-items: center;
   }
+
+  &-noscroll {
+    height: 80vh;
+    overflow-y: hidden;
+  }
 }
 
 .modal-dialog {
@@ -144,8 +155,5 @@ export default {
   padding: 32px;
   background: white;
   height: fit-content;
-  // position: absolute;
-  // top: 0;
-  // left: 0;
 }
 </style>

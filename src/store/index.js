@@ -10,15 +10,14 @@ const store = createStore({
     selectedCategory: '',
     selectedCity: '',
     menuType: 'sights',
-    searchResults: []
+    searchResults: [],
+    modalVisible: false
   },
   mutations: {
     updateSelectedCity (state, payload) {
-      console.log('updateSelectedCity', payload)
       state.selectedCity = payload
     },
     updateSelectedCategory (state, payload) {
-      console.log('updateSelectedCategory', payload)
       state.selectedCategory = payload
     },
     updateMenuType(state, payload) {
@@ -38,6 +37,9 @@ const store = createStore({
     },
     resetSearchResults (state) {
       state.searchResults = []
+    },
+    setModalVisible (state, visible) {
+      state.modalVisible = visible
     }
   }
 })

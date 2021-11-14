@@ -8,7 +8,6 @@ export default {
   },
 
   mounted() {
-    console.log('mounted')
     if (this.cards.length <= 1) return;
 
     this.setStep();
