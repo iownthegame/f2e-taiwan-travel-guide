@@ -3,7 +3,7 @@
     <div class="header-inner">
       <img
         class="header-logo"
-        src="../assets/taiwan_icon.png"
+        src="../assets/taiwan_icon.svg"
       >
 
       <div class="menu-tabs">
