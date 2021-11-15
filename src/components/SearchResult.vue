@@ -120,6 +120,7 @@
                 v-for="city in panels[result.type].data"
                 :key="city.location"
                 class="card card--city"
+                @click="searchCity(city)"
               >
                 <img
                   class="card-image"
@@ -147,7 +148,7 @@
 </template>
 
 <script>
-import { mapState } from 'vuex'
+import { mapState, mapActions, mapMutations } from 'vuex'
 
 import carousel from './mixins/carousel';
 import { cities } from '../sample_data/sights'
@@ -190,11 +191,21 @@ export default {
     ])
   },
   methods: {
+    ...mapMutations([
+      'updateSelectedCity'
+    ]),
+    ...mapActions([
+      'search'
+    ]),
     setAltImg(event) {
       event.target.src = require('../assets/no_image.png')
     },
     setCardImage(src) {
       return src || require('../assets/no_image.png')
+    },
+    searchCity(city) {
+      this.updateSelectedCity(city.value)
+      this.search()
     }
   }
 }
@@ -313,6 +324,13 @@ export default {
     box-shadow: 0px 4px 3px rgba(13, 11, 12, 0.2);
     display: inline-flex;
     height: 245px;
+    cursor: pointer;
+
+    &:hover {
+      .card-location {
+        font-size: 24px;
+      }
+    }
 
     .card {
       &-image {
@@ -338,6 +356,7 @@ export default {
         font-weight: normal;
         font-size: 20px;
         line-height: 29px;
+        transition: .2s;
 
         img {
           margin-right: 0;

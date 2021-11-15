@@ -9,6 +9,7 @@ export default {
 
   mounted() {
     if (this.cards.length <= 1) return;
+    if (!this.$refs.inner) return;
 
     this.setStep();
     this.resetTranslate();

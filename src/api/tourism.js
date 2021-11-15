@@ -1,7 +1,7 @@
 import axios from 'axios';
 import jsSHA from 'jssha';
 
-export default class Api {
+const Api = {
   getScenicSpot(city) {
     return axios.get(
       `${this.url()}/ScenicSpot/:city`.replace(':city', city), {
@@ -12,7 +12,7 @@ export default class Api {
         headers: this.getAuthorizationHeader()
       }
     );
-  }
+  },
 
   getRestaurant(city) {
     return axios.get(
@@ -24,7 +24,7 @@ export default class Api {
       headers: this.getAuthorizationHeader()
     }
     );
-  }
+  },
 
   getHotel(city) {
     return axios.get(
@@ -36,7 +36,7 @@ export default class Api {
       headers: this.getAuthorizationHeader()
     }
     );
-  }
+  },
 
   getActivity(city) {
     return axios.get(
@@ -48,11 +48,11 @@ export default class Api {
       headers: this.getAuthorizationHeader()
     }
     );
-  }
+  },
 
   url() {
     return 'https://ptx.transportdata.tw/MOTC/v2/Tourism'
-  }
+  },
 
   getAuthorizationHeader() {
     let AppID = '3df46b6355de4253b95fe1bbb28e86c6';
@@ -66,3 +66,5 @@ export default class Api {
     return { 'Authorization': Authorization, 'X-Date': GMTString };
   }
 }
+
+export default Api;

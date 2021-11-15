@@ -92,15 +92,12 @@
 </template>
 
 <script>
-import { mapMutations, mapState } from 'vuex'
-
-import Api from '../api/tourism';
+import { mapMutations, mapState, mapActions } from 'vuex'
 
 export default {
   name: 'SearchBanner',
   data() {
     return {
-      api: null,
       options: {
         category: {
           sights: [
@@ -244,7 +241,6 @@ export default {
     }
   },
   created() {
-    this.api = new Api()
     this.search()
   },
   methods: {
@@ -257,80 +253,9 @@ export default {
       'appendSearchResult'
     ]),
 
-    search() {
-      this.resetSearchResults()
-      this.startLoading()
-
-      if (!this.selectedCity) {
-        this.appendSearchResult({
-          type: 'cities'
-        })
-      }
-
-      if (this.selectedCategory === 'sights' || (this.selectedCategory === '' && this.menuType === 'sights')) {
-        this.api.getScenicSpot(
-          this.selectedCity
-        ).then((response) => {
-          // console.log(response.data)
-          this.endLoading()
-          this.appendSearchResult({
-            data: response.data,
-            type: 'sights'
-          })
-        }).catch((error) => {
-          console.log(error)
-          this.endLoading()
-        })
-      }
-
-      if (this.selectedCategory === 'activities' || (this.selectedCategory === '' && this.menuType === 'sights')) {
-        this.api.getActivity(
-          this.selectedCity
-        ).then((response) => {
-          // console.log(response.data)
-          this.endLoading()
-          this.appendSearchResult({
-            data: response.data,
-            type: 'activities'
-          })
-        }).catch((error) => {
-          console.log(error)
-          this.endLoading()
-        })
-      }
-
-      if (this.selectedCategory === 'restaurants' || (this.selectedCategory === '' && (this.menuType === 'sights' || this.menuType === 'rooms'))) {
-        this.api.getRestaurant(
-          this.selectedCity
-        ).then((response) => {
-          // console.log(response.data)
-          this.endLoading()
-          this.appendSearchResult({
-            data: response.data,
-            type: 'restaurants'
-          })
-        }).catch((error) => {
-          console.log(error)
-          this.endLoading()
-        })
-      }
-
-      if (this.selectedCategory === 'rooms' || (this.selectedCategory === '' && (this.menuType === 'sights' || this.menuType === 'rooms'))) {
-        this.api.getHotel(
-          this.selectedCity
-        ).then((response) => {
-          // console.log(response.data)
-          this.endLoading()
-          this.appendSearchResult({
-            data: response.data,
-            type: 'rooms'
-          })
-        }).catch((error) => {
-          console.log(error)
-          this.endLoading()
-        })
-      }
-    },
+    ...mapActions([
+      'search'
+    ]),
   }
 }
 </script>

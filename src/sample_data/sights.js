@@ -28,58 +28,72 @@ const activities = [
 const cities = [
   {
     location: '台北市',
+    value: 'Taipei',
     image: 'unsplash_qhu2nFWqVEU.png'
   },
   {
     location: '新北市',
+    value: 'NewTaipei',
     image: 'unsplash_WWUQyFn65ek.png'
   },
   {
     location: '桃園市',
+    value: 'Taoyuan',
     image: 'unsplash_0clJTXtgsIY.png'
   },
   {
     location: '新竹市',
+    value: 'Hsinchu',
     image: 'unsplash_XPWYOlfgUgw.png'
   },
   {
     location: '台  中',
+    value: 'Taichung',
     image: 'unsplash_D6Bk1A3-gMA.png'
   },
   {
     location: '南  投',
+    value: 'NantouCounty',
     image: 'unsplash_0gqcBEe2rv8.png'
   },
   {
     location: '嘉  義',
+    value: 'Chiayi',
     image: 'unsplash_RpZxHPikR6A.png'
   },
   {
     location: '台  南',
+    value: 'Tainan',
     image: 'unsplash_zdV_Xh_nyu8.png'
   },
   {
     location: '高  雄',
+    value: 'Kaohsiung',
     image: 'unsplash_5-GNa303REg.png'
   },
   {
     location: '屏  東',
+    value: 'PingtungCounty',
     image: 'unsplash_Z95viY3WaZs.png'
   },
   {
     location: '宜  蘭',
+    value: 'YilanCounty',
     image: 'unsplash_qhu2nFWqVEU (1).png'
   },
   {
     location: '花  蓮',
+    value: 'HualienCounty',
     image: 'unsplash_U88iyzoZdlY.png'
   },
   {
     location: '台  東',
+    value: 'TaitungCounty',
     image: 'unsplash_Dl_Ya8eNRpk.png'
   },
   {
     location: '金門馬祖.澎湖',
+    value: 'PenghuCounty',
     image: 'unsplash_qhu2nFWqVEU (2).png'
   },
 ]
